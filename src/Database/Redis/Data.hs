@@ -76,8 +76,3 @@ encode x = concat $ case x of
 	Bulk Nothing 		-> ["$-1", crlf]
 	Bulk (Just s) 	-> ["$", size, crlf, s, crlf]
 		where size = show $ length s
-	
-main :: IO ()	 
-main = do
-	return ()
-		

@@ -1,0 +1,27 @@
+Name:                lazy-redis
+Version:             0.1
+Synopsis:            Low-effort Redis library for Haskell
+-- Description:         
+License:             MIT
+License-file:        LICENSE
+Author:              Tom Brow
+Maintainer:          tebrow@gmail.com
+-- Copyright:
+           
+Category:            Database
+Build-type:          Simple
+Cabal-version:       >=1.2
+
+Extra-source-files: 
+ LICENSE
+ README.md
+
+Library
+  Hs-source-dirs: src
+
+  Exposed-modules:
+    Database.Redis.Data
+  
+  Build-depends:
+    base == 4.*  
+  

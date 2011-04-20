@@ -1,0 +1,14 @@
+*~
+dist/
+*.tix
+*.hpc
+*.prof
+*.hi
+*.o
+*.sw?
+#*#
+.#*
+.DS_Store
+**/.DS_Store
+docs/out
+*.log
