@@ -1,5 +1,10 @@
 {-# LANGUAGE OverloadedStrings #-}
 
+-- | 'Database.Redis.Data' contains functions for encoding and decoding data for 
+-- communication with a Redis server. The data types supported are those described
+-- in the Redis protocol specification:
+-- <http://redis.io/topics/protocol>
+
 module Database.Redis.Data
     ( RedisData(..)
     , decode
@@ -8,6 +13,9 @@ module Database.Redis.Data
 
 import Data.List (isPrefixOf)
 		
+-- | 'RedisData' represents the data contained in a Redis request or reply. Each data
+-- constructor corresponds to one of the reply types described in the protocol
+-- specification: <http://redis.io/topics/protocol>
 data RedisData = Status String 
 								| Error String 
 								| Integer Int 
@@ -50,7 +58,7 @@ decodeMultiBulk n s = case decodeMultiBulk (n-1) rest of
 	where (first, rest) = decode s
 
 -- | 'decode' decodes one 'RedisData' from a string, 
--- returning the remainder of the string as well.
+-- also returning the remainder of the string.
 decode :: String -> (RedisData, String)
 decode s = case head s of
 		'+' -> (Status xs, rest)
