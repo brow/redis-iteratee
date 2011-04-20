@@ -72,7 +72,7 @@ decode s = case head s of
 
 -- | 'encode' encodes a 'RedisData' as a string.
 encode :: RedisData -> String
-encode (MultiBulk Nothing) = "*-1"
+encode (MultiBulk Nothing) = "*-1\r\n"
 encode (MultiBulk (Just xs)) = concat ["*", size, crlf, items]
 	where 
 		size = show $ length xs
