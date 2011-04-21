@@ -22,9 +22,12 @@ Library
 
   Exposed-modules:
     Database.Redis.Data
+    Database.Redis.Connection
+    Database.Redis.Commands
   
   Build-depends:
-    base == 4.*
+    base == 4.*,
+    network
   
 Test-suite test-lazy-redis
   Default-language: Haskell98
@@ -33,6 +36,7 @@ Test-suite test-lazy-redis
   Main-is:          Main.hs
   Build-depends:
     base,
+    network,
     HUnit >= 1.2.2,
     test-framework-hunit >= 0.2.6,
     test-framework >= 0.3.3
