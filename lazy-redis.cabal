@@ -29,9 +29,21 @@ Library
     base == 4.*,
     network
   
-Test-suite test-lazy-redis
+Test-suite test-lazy-redis-pure
   Default-language: Haskell98
-  Hs-source-dirs:   test src
+  Hs-source-dirs:   test/pure src
+  Type:             exitcode-stdio-1.0
+  Main-is:          Main.hs
+  Build-depends:
+    base,
+    network,
+    HUnit >= 1.2.2,
+    test-framework-hunit >= 0.2.6,
+    test-framework >= 0.3.3
+    
+Test-suite test-lazy-redis-io
+  Default-language: Haskell98
+  Hs-source-dirs:   test/io src
   Type:             exitcode-stdio-1.0
   Main-is:          Main.hs
   Build-depends:
