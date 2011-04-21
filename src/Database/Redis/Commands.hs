@@ -9,9 +9,9 @@ import Database.Redis.Data (FromRedis, fromRedis, commandData)
 
 -- * Arbitrary commands
 
-command :: (FromRedis a) => [String] -> Connection -> IO a
-command args c = do
-	reply <- request c (commandData args)
+command :: (FromRedis a) => Connection -> [String] -> IO a
+command connection args = do
+	reply <- request connection (commandData args)
 	case fromRedis reply of
 		Left err -> ioError err
 		Right x -> return x
@@ -20,8 +20,19 @@ command args c = do
 
 -- ** Connection
 
+auth :: Connection -> String -> IO String
+auth c s = command c ["AUTH", s]
+
 echo :: Connection -> String -> IO (Maybe String)
-echo c s = command ["ECHO", s] c
+echo c s = command c ["ECHO", s]
 
 ping :: Connection -> IO String
-ping = command ["PING"]
+ping c = command c ["PING"]
+
+quit :: Connection -> IO String
+quit c = command c ["QUIT"]
+
+select :: Connection -> Int -> IO String
+select c i = command c ["SELECT", show i]
+
+
