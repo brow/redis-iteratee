@@ -9,6 +9,9 @@ import Database.Redis.Data (FromRedis, fromRedis, commandData)
 
 -- * Arbitrary commands
 
+-- | 'command' returns an action that executes a Redis command given as a list
+-- of strings, where the first string is the command name and the following 
+-- strings are the arguments.
 command :: (FromRedis a) => Connection -> [String] -> IO a
 command connection args = do
 	reply <- request connection (commandData args)
@@ -34,5 +37,21 @@ quit c = request' c $ commandData ["QUIT"]
 
 select :: Connection -> Int -> IO String
 select c i = command c ["SELECT", show i]
+
+-- ** Strings
+
+append :: Connection -> String -> String -> IO Int
+append c key value = command c ["APPEND", key, value]
+
+get :: Connection -> String -> IO (Maybe String)
+get c key = command c ["GET", key]
+
+set :: Connection -> String -> String -> IO String
+set c key value = command c ["SET", key, value]
+
+-- ** Server
+
+flushdb :: Connection -> IO String
+flushdb c = command c ["FLUSHDB"]
 
 
