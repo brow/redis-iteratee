@@ -32,7 +32,7 @@ Library
     enumerator >= 0.4.9.1,
     bytestring >= 0.9.1
   
-Test-suite test-lazy-redis-pure
+Test-suite test-pure
   Default-language: Haskell98
   Hs-source-dirs:   test/pure src
   Type:             exitcode-stdio-1.0
@@ -46,7 +46,7 @@ Test-suite test-lazy-redis-pure
     test-framework-hunit >= 0.2.6,
     test-framework >= 0.3.3
     
-Test-suite test-lazy-redis-io
+Test-suite test-io
   Default-language: Haskell98
   Hs-source-dirs:   test/io src
   Type:             exitcode-stdio-1.0
