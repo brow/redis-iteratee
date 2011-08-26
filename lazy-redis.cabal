@@ -22,12 +22,15 @@ Library
 
   Exposed-modules:
     Database.Redis.Data
+    Database.Redis.Data.Iteratee
     Database.Redis.Connection
     Database.Redis.Commands
   
   Build-depends:
     base == 4.*,
-    network
+    network,
+    enumerator >= 0.4.9.1,
+    bytestring >= 0.9.1
   
 Test-suite test-lazy-redis-pure
   Default-language: Haskell98
@@ -37,6 +40,8 @@ Test-suite test-lazy-redis-pure
   Build-depends:
     base,
     network,
+    enumerator >= 0.4.9.1,
+    bytestring >= 0.9.1,
     HUnit >= 1.2.2,
     test-framework-hunit >= 0.2.6,
     test-framework >= 0.3.3
@@ -49,6 +54,8 @@ Test-suite test-lazy-redis-io
   Build-depends:
     base,
     network,
+    enumerator >= 0.4.9.1,
+    bytestring >= 0.9.1,
     HUnit >= 1.2.2,
     test-framework-hunit >= 0.2.6,
     test-framework >= 0.3.3
