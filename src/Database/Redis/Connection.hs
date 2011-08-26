@@ -8,6 +8,7 @@ module Database.Redis.Connection
 	, defaultPort
 	, disconnect
 	, request
+    , request'
 	) where
 		
 import Database.Redis.Data
@@ -45,8 +46,14 @@ disconnect c = do
 -- 'RedisData' it receives in reply. 
 request :: Connection -> RedisData -> IO RedisData
 request connection command = do
-	hPutStr (handle connection) (encode command)
+	request' connection command
 	reply <- run (enumHandle 1 (handle connection) $$ redisData)
 	case reply of
 		Right rd -> return rd
 		Left _ -> ioError $ userError "iteratee exception"
+
+-- | `request'` is a variation of 'request' that sends a 'RedisData' over a
+-- connection with consuming the reply. This is useful for implementing the 
+-- 'quit' command, which does not result in a reply.
+request' :: Connection -> RedisData -> IO ()
+request' connection command = hPutStr (handle connection) (encode command)

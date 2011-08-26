@@ -10,22 +10,17 @@ import Database.Redis.Commands
 
 tests :: [Test]
 tests = 
-    [ 
-        connectedTest "ping" $ \redis -> do
-            reply <- ping redis
-            H.assertEqual "reply" "PONG" reply 
-            
+    -- Connection
+    [   connectedTest "auth" $ \redis -> do
+            redis `auth` "password" >>= H.assertEqual "reply" "OK"
     ,   connectedTest "echo" $ \redis -> do
-            reply <- redis `echo` "hello"
-            H.assertEqual "reply" (Just "hello") reply
-            
+            redis `echo` "hello" >>= H.assertEqual "reply" (Just "hello")
+    ,   connectedTest "ping" $ \redis -> do
+            ping redis >>= H.assertEqual "reply" "PONG"   
+    ,   connectedTest "quit" $ \redis -> do
+            quit redis  
     ,   connectedTest "select" $ \redis -> do
-            reply <- redis `select` (testDB + 1)
-            H.assertEqual "reply" "OK" reply
-    
-    -- ,    connectedTest "quit" $ \redis -> do
-    --      reply <- quit redis
-    --      H.assertEqual "reply" "OK" reply
+            redis `select` (testDB + 1) >>= H.assertEqual "reply" "OK"    
     ]
     
 testDB :: Int
