@@ -51,8 +51,8 @@ commandData = MultiBulk . Just . map (Bulk . Just)
 
 -- * Converting to Prelude types
 
-dataTypeError :: RedisData -> IOError
-dataTypeError rd = userError $ show rd
+dataTypeError :: String -> RedisData -> IOError
+dataTypeError to from = userError $ "can't get " ++ to ++ " from " ++ show from
 
 class FromRedis a where
     fromRedis :: RedisData -> Either IOError a
@@ -60,21 +60,21 @@ class FromRedis a where
 instance FromRedis String where
     fromRedis (Status s) = Right s
     fromRedis (Error s) = Right s
-    fromRedis x = Left (dataTypeError x)
+    fromRedis x = Left (dataTypeError "String" x)
     
 instance FromRedis (Maybe String) where
     fromRedis (Bulk m) = Right m
-    fromRedis x = Left (dataTypeError x)
+    fromRedis x = Left (dataTypeError "Maybe String" x)
     
 instance FromRedis (Maybe [Maybe String]) where
     fromRedis (MultiBulk m) = Right $ (fmap . fmap $ \(Bulk x) -> x) m
-    fromRedis x = Left (dataTypeError x)
+    fromRedis x = Left (dataTypeError "Maybe [Maybe String]" x)
     
 instance FromRedis Bool where
     fromRedis (Integer 0) = Right False
     fromRedis (Integer _) = Right True
-    fromRedis x = Left (dataTypeError x)
+    fromRedis x = Left (dataTypeError "Bool" x)
     
 instance FromRedis Int where
     fromRedis (Integer i) = Right i
-    fromRedis x = Left (dataTypeError x)
+    fromRedis x = Left (dataTypeError "Int" x)
