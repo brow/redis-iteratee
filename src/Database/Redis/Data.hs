@@ -64,6 +64,7 @@ instance FromRedis String where
     
 instance FromRedis (Maybe String) where
     fromRedis (Bulk m) = Right m
+    fromRedis (MultiBulk Nothing) = Right Nothing
     fromRedis x = Left (dataTypeError "Maybe String" x)
     
 instance FromRedis (Maybe [Maybe String]) where
